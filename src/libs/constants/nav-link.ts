@@ -1,0 +1,2 @@
+export const TOTAL_SHUFFLE_EACH_CHARACTER = 12;
+export const SHOULD_SHUFFLE_ON_MOUNTED = false;
