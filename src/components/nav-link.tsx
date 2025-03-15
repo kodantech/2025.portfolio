@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  SHOULD_SHUFFLE_ON_MOUNTED,
-  TOTAL_SHUFFLE_EACH_CHARACTER,
-} from "@/libs/constants/nav-link";
+import { PLAY_ON_MOUNT, SCRAMBLE_AMOUNT } from "@/libs/constants/nav-link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Link from "next/link";
@@ -15,21 +12,20 @@ export default function NavLink({
 }: {
   item: { title: string; href: string };
 }) {
-  const containerRef = useRef<HTMLAnchorElement | null>(null);
   const bgRef = useRef<HTMLSpanElement | null>(null);
 
-  const { ref: textRef, replay: startShuffleTextAnimation } = useScramble({
+  const { ref: textRef, replay: playScramble } = useScramble({
     text: item.title,
-    scramble: TOTAL_SHUFFLE_EACH_CHARACTER,
-    playOnMount: SHOULD_SHUFFLE_ON_MOUNTED,
+    scramble: SCRAMBLE_AMOUNT,
+    playOnMount: PLAY_ON_MOUNT,
   });
 
-  const { contextSafe } = useGSAP({ scope: containerRef });
+  const { contextSafe } = useGSAP();
 
   const startAnimation = contextSafe(() => {
     gsap.set(textRef.current, { color: "black" });
     gsap.to(bgRef.current, { x: 0, autoAlpha: 1 });
-    startShuffleTextAnimation();
+    playScramble();
   });
 
   const exitAnimation = contextSafe(() => {
@@ -44,7 +40,6 @@ export default function NavLink({
 
   return (
     <Link
-      ref={containerRef}
       href={item.href}
       className="relative inline-block overflow-hidden uppercase"
       onMouseEnter={startAnimation}
@@ -55,7 +50,7 @@ export default function NavLink({
       </span>
       <span
         ref={bgRef}
-        className="absolute inset-0 -z-[1] block -translate-x-full bg-white"
+        className="absolute inset-0 -z-[1] block -translate-x-[101%] bg-white"
       />
     </Link>
   );

@@ -1,2 +1,2 @@
-export const TOTAL_SHUFFLE_EACH_CHARACTER = 12;
-export const SHOULD_SHUFFLE_ON_MOUNTED = false;
+export const SCRAMBLE_AMOUNT = 12;
+export const PLAY_ON_MOUNT = false;

@@ -1,10 +1,10 @@
 import Header from "@/components/header";
+import { ReactScan } from "@/react-scan";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-import Script from "next/script";
 
 const ibmPlexMono = IBM_Plex_Mono({
   weight: ["300", "400", "500", "600", "700"],
@@ -26,12 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <Script
-          src="//unpkg.com/react-scan/dist/auto.global.js"
-          crossOrigin="anonymous"
-        />
-      </head>
+      <ReactScan />
       <body className={`${ibmPlexMono.className} antialiased`}>
         <Header />
         {children}
