@@ -7,11 +7,11 @@ import Link from "next/link";
 import { useRef } from "react";
 import { useScramble } from "use-scramble";
 
-export default function NavLink({
-  item,
-}: {
+type Props = {
   item: { title: string; href: string };
-}) {
+};
+
+export default function NavLink({ item }: Props) {
   const bgRef = useRef<HTMLSpanElement | null>(null);
 
   const { ref: textRef, replay: playScramble } = useScramble({
@@ -25,15 +25,29 @@ export default function NavLink({
   const startAnimation = contextSafe(() => {
     gsap.set(textRef.current, { color: "black" });
     gsap.to(bgRef.current, { x: 0, autoAlpha: 1 });
+    gsap.to(".magic-mouse", {
+      opacity: 0.15,
+      backgroundColor: "#fff",
+      duration: 0.25,
+      scale: 3,
+      ease: "power3",
+    });
     playScramble();
   });
 
   const exitAnimation = contextSafe(() => {
     gsap.set(textRef.current, { color: "white" });
+    gsap.to(".magic-mouse", {
+      opacity: 1,
+      backgroundColor: "inherit",
+      duration: 0.25,
+      scale: 1,
+      ease: "power3",
+    });
     gsap.to(bgRef.current, {
       x: "101%",
       onComplete() {
-        gsap.set(bgRef.current, { x: "-101%", autoAlpha: 0 });
+        gsap.set(bgRef.current, { x: "-101%" });
       },
     });
   });
@@ -41,11 +55,14 @@ export default function NavLink({
   return (
     <Link
       href={item.href}
-      className="relative inline-block overflow-hidden uppercase"
+      className="text-slide-up relative flex items-center uppercase"
       onMouseEnter={startAnimation}
       onMouseLeave={exitAnimation}
     >
-      <span ref={textRef} className="text-white uppercase">
+      <span
+        ref={textRef}
+        className="text-[1.4vw] leading-none text-white uppercase"
+      >
         {item.title}
       </span>
       <span

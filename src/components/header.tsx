@@ -1,19 +1,21 @@
 "use client";
 
-import { navMenu } from "@/libs/constants/nav";
+import { NAV_MENU } from "@/libs/constants/nav-link";
 import NavLink from "./nav-link";
 
 export default function Header() {
   return (
     <header className="relative">
-      <nav className="fixed top-2 right-2 left-2 z-10 rounded-2xl p-1">
-        <ul className="flex items-center justify-center gap-4 rounded-xl">
-          {navMenu.map((nav) => (
-            <li className="rounded-xl px-4 py-2" key={nav.href}>
+      <nav className="pt-4">
+        <ul className="flex items-center justify-around gap-4">
+          {NAV_MENU.map((nav) => (
+            <li key={nav.href} className="overflow-hidden">
               <NavLink item={nav} />
             </li>
           ))}
         </ul>
+
+        <div className="horizontal-line mt-2 h-px bg-white" />
       </nav>
     </header>
   );
